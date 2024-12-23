@@ -35,15 +35,15 @@ public class ConversorMonedas {
                 }
 
                 // Obtener la moneda deseada y la cantidad de dinero a convertir
-                Conversion conversionInput = promptForConversionInput(scanner, tasaCambioActual);
+                Conversion conversionInput = inputConversion(scanner, tasaCambioActual);
 
                 // Realizar la conversión aquí
-                convertedAmount(conversionInput, tasaCambioActual);
+                cantidadConertida(conversionInput, tasaCambioActual);
 
                 System.out.println();
-                System.out.println("Si NO deseas continuar con nueva conversion ingrese N, de lo contrario ingrese cualquier otra letra  ");
+                System.out.println("Si desea salir del programa, presione 1, de lo contrario presione cualquier otra tecla");
                 String exit = scanner.nextLine();
-                if (exit.equalsIgnoreCase("N")) {
+                if (exit.equalsIgnoreCase("1")) {
                     break;
                 }
             }
@@ -52,24 +52,24 @@ public class ConversorMonedas {
     }
 
     // Conversor de monto
-    private static void convertedAmount(Conversion conversion, TasaCambio divisaActual) {
+    private static void cantidadConertida(Conversion conversion, TasaCambio divisaActual) {
 
-        var currentCurrencyCode = divisaActual.getBase_code();
+        var codigoDivisaActual = divisaActual.getBase_code();
 
-        var desiredCurrency = conversion.divisa();
-        var amount = conversion.cantidad();
+        var divisaDeseada = conversion.divisa();
+        var cantidad = conversion.cantidad();
 
-        double convertedAmount = amount * divisaActual.getConversion_rates().get(desiredCurrency);
+        double cantidadConvertida = cantidad * divisaActual.getConversion_rates().get(divisaDeseada);
 
-        double roundedAmount = Math.round(convertedAmount * 100.0) / 100.0;
+        double cantidadRedondeada = Math.round(cantidadConvertida * 100.0) / 100.0;
 
         System.out.println();
-        System.out.println("El valor de " + amount + "[" + currentCurrencyCode + "]" +
-                " corresponse al valor final de: " + roundedAmount + " [" + desiredCurrency + "]");
+        System.out.println("El valor de " + cantidad + "[" + codigoDivisaActual + "]" +
+                " corresponse al valor final de: " + cantidadRedondeada + " [" + divisaDeseada + "]");
     }
 
     // Solicitar entrada para la conversión
-    private static Conversion promptForConversionInput(Scanner scanner, TasaCambio tasaCambio) {
+    private static Conversion inputConversion(Scanner scanner, TasaCambio tasaCambio) {
         do {
             // Aquí se introduce la moneda deseada a convertir
             String divisaDeseada = divisaActual(scanner, "Ingresa el código de la moneda deseada (por ejemplo, USD)");
